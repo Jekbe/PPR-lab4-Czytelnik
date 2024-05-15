@@ -21,27 +21,37 @@ public class Main {
                     case "koniec" -> {
                         dziala = false;
                         printWriter.println(0);
+                        printWriter.flush();
                         System.out.println(bufferedReader.readLine());
                     }
                     case "lista" -> {
                         printWriter.println(1);
+                        printWriter.flush();
                         System.out.println(bufferedReader.readLine());
                     }
                     case "wypozycz" -> {
                         printWriter.println(2);
+                        printWriter.flush();
                         System.out.println(bufferedReader.readLine());
                         printWriter.println(scanner.nextLine());
+                        printWriter.flush();
                         printWriter.println(scanner.nextLine());
+                        printWriter.flush();
                         printWriter.println(scanner.nextLine());
+                        printWriter.flush();
                         mojeKsiazki.add((Ksiazka) objectInputStream.readObject());
                         System.out.println(bufferedReader.readLine());
                     }
                     case "oddaj" -> {
                         printWriter.println(3);
+                        printWriter.flush();
                         System.out.println(bufferedReader.readLine());
                         printWriter.println(scanner.nextLine());
+                        printWriter.flush();
                         printWriter.println(scanner.nextLine());
+                        printWriter.flush();
                         printWriter.println(scanner.nextLine());
+                        printWriter.flush();
                         System.out.println(bufferedReader.readLine());
                     }
                     case "moje" -> mojeKsiazki.forEach(ksiazka -> {
