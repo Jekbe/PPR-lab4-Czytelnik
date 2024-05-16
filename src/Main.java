@@ -5,14 +5,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private static PrintWriter printWriter;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<Ksiazka> mojeKsiazki = new ArrayList<>();
 
-        try(Socket socket = new Socket("localhost", 8002);
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
+        try(Socket socket = new Socket("localhost", 8002)){
+            printWriter = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream())) {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+
             System.out.println(bufferedReader.readLine());
 
             boolean dziala = true;
@@ -20,38 +23,28 @@ public class Main {
                 switch (scanner.nextLine()){
                     case "koniec" -> {
                         dziala = false;
-                        printWriter.println(0);
-                        printWriter.flush();
+                        print(Integer.toString(0));
                         System.out.println(bufferedReader.readLine());
                     }
                     case "lista" -> {
-                        printWriter.println(1);
-                        printWriter.flush();
+                        print(Integer.toString(1));
                         System.out.println(bufferedReader.readLine());
                     }
                     case "wypozycz" -> {
-                        printWriter.println(2);
-                        printWriter.flush();
+                        print(Integer.toString(2));
                         System.out.println(bufferedReader.readLine());
-                        printWriter.println(scanner.nextLine());
-                        printWriter.flush();
-                        printWriter.println(scanner.nextLine());
-                        printWriter.flush();
-                        printWriter.println(scanner.nextLine());
-                        printWriter.flush();
+                        print(scanner.nextLine());
+                        print(scanner.nextLine());
+                        print(scanner.nextLine());
                         mojeKsiazki.add((Ksiazka) objectInputStream.readObject());
                         System.out.println(bufferedReader.readLine());
                     }
                     case "oddaj" -> {
-                        printWriter.println(3);
-                        printWriter.flush();
+                        print(Integer.toString(3));
                         System.out.println(bufferedReader.readLine());
-                        printWriter.println(scanner.nextLine());
-                        printWriter.flush();
-                        printWriter.println(scanner.nextLine());
-                        printWriter.flush();
-                        printWriter.println(scanner.nextLine());
-                        printWriter.flush();
+                        print(scanner.nextLine());
+                        print(scanner.nextLine());
+                        print(scanner.nextLine());
                         System.out.println(bufferedReader.readLine());
                     }
                     case "moje" -> mojeKsiazki.forEach(ksiazka -> {
@@ -67,5 +60,10 @@ public class Main {
         } catch(IOException | ClassNotFoundException e) {
             System.out.println("Błąd: " + e);
         }
+    }
+
+    private static void print(String s){
+        printWriter.println(s);
+        printWriter.flush();
     }
 }
